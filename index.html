@@ -49,6 +49,9 @@
         #explanation-container {
             margin-top: 10px;
         }
+        #welcome-container {
+            margin-bottom: 20px;
+        }
         @media (max-width: 600px) {
             #quiz-container {
                 max-width: 100%;
@@ -59,8 +62,10 @@
 </head>
 <body>
     <div id="quiz-container">
-        <h1>Quiz game</h1>
-        <p>Welcome to the Trivia Quiz! Test your knowledge with a variety of questions from different categories. Choose the correct answer for each question and see how well you can score. Good luck!</p>
+        <div id="welcome-container">
+            <h1>Welcome to the Trivia Quiz!</h1>
+            <p id="welcome-message">Test your knowledge with a variety of questions from different categories. Choose the correct answer for each question and see how well you can score. Good luck!</p>
+        </div>
         <div id="question-container"></div>
         <div id="choices-container"></div>
         <div id="explanation-container"></div>
@@ -73,6 +78,8 @@
         // quiz.js
         console.log('Script is running!');
         document.addEventListener('DOMContentLoaded', function () {
+            const welcomeContainer = document.getElementById('welcome-container');
+            const welcomeMessage = document.getElementById('welcome-message');
             const questionContainer = document.getElementById('question-container');
             const choicesContainer = document.getElementById('choices-container');
             const explanationContainer = document.getElementById('explanation-container');
@@ -84,7 +91,7 @@
             let score = 0;
 
             const questions = [
-            {
+                {
                     question: 'Question 1: What is 2 + 2?',
                     choices: ['3', '4', '5', '6'],
                     correctAnswer: '4'
@@ -186,9 +193,31 @@
                     choices: ['Sydney', 'Melbourne', 'Canberra', 'Brisbane'],
                     correctAnswer: 'Canberra'
                 },
+                
             ];
 
+            function showWelcomeMessage() {
+                const userName = prompt('Welcome to the Trivia Quiz! Please enter your name:');
+                if (userName) {
+                    welcomeMessage.textContent = `Hello, ${userName}! Let's start the quiz. Good luck!`;
+                } else {
+                    welcomeMessage.textContent = 'Hello! Let\'s start the quiz. Good luck!';
+                }
+
+
+        // Call showQuestion to display the first question after the welcome message
+        showQuestion();
+    }
+
+            function showWelcome() {
+                welcomeContainer.style.display = 'block';
+                questionContainer.style.display = 'none';
+            }
+
             function showQuestion() {
+                welcomeContainer.style.display = 'none';
+                questionContainer.style.display = 'block';
+
                 const currentQuestion = questions[currentQuestionIndex];
                 questionContainer.textContent = currentQuestion.question;
 
@@ -276,18 +305,10 @@
             restartButton.addEventListener('click', restartGame);
 
             // Initial setup
-            showWelcomeMessage();
+            showWelcome();
+
         });
 
-        function showWelcomeMessage() {
-            const userName = prompt('Welcome to the Trivia Quiz! Please enter your name:');
-            if (userName) {
-                welcomeMessage.textContent = `Hello, ${userName}! Let's start the quiz. Good luck!`;
-            } else {
-                welcomeMessage.textContent = 'Hello! Let\'s start the quiz. Good luck!';
-            }
-        }
-    </script>
     </script>
 </body>
 </html>
